@@ -17,6 +17,7 @@ import (
 	"os"
 	"os/exec"
 	"syscall"
+	"unsafe"
 
 	"golang.org/x/sys/windows"
 )
@@ -49,5 +50,46 @@ func newCmd(command string) *exec.Cmd {
 }
 
 func getSysProcAttr(userName string) (*syscall.SysProcAttr, error) {
-	return nil, nil
+	return &syscall.SysProcAttr{HideWindow: true}, nil
+}
+
+func handlerCmd(cmd *exec.Cmd) chan struct{} {
+
+	var ch = make(chan struct{}, 1)
+
+	job, err := windows.CreateJobObject(nil, nil)
+	if err != nil {
+		panic(err)
+	}
+
+	go func() {
+		<-ch
+		windows.CloseHandle(job)
+	}()
+
+	info := windows.JOBOBJECT_EXTENDED_LIMIT_INFORMATION{
+		BasicLimitInformation: windows.JOBOBJECT_BASIC_LIMIT_INFORMATION{
+			LimitFlags: windows.JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE,
+		},
+	}
+	if _, err := windows.SetInformationJobObject(
+		job,
+		windows.JobObjectExtendedLimitInformation,
+		uintptr(unsafe.Pointer(&info)),
+		uint32(unsafe.Sizeof(info))); err != nil {
+		panic(err)
+	}
+
+	type process struct {
+		Pid    int
+		Handle uintptr
+	}
+
+	if err := windows.AssignProcessToJobObject(
+		job,
+		windows.Handle((*process)(unsafe.Pointer(cmd.Process)).Handle)); err != nil {
+		panic(err)
+	}
+
+	return ch
 }

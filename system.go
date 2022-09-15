@@ -1,3 +1,6 @@
+//go:build !windows
+// +build !windows
+
 /**
 * @program: pm
 *
@@ -77,4 +80,12 @@ func getSysProcAttr(userName string) (*syscall.SysProcAttr, error) {
 	return &syscall.SysProcAttr{
 		Credential: &syscall.Credential{Uid: uint32(uid), Gid: uint32(gid)},
 	}, nil
+}
+
+func handlerCmd(cmd *exec.Cmd) chan struct{} {
+	var ch = make(chan struct{}, 1)
+	go func() {
+		<-ch
+	}()
+	return ch
 }

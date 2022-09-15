@@ -1,3 +1,6 @@
+//go:build !windows
+// +build !windows
+
 /**
 * @program: pm
 *
@@ -93,6 +96,7 @@ func start(cfg Config) {
 
 		go func() {
 			for {
+
 				var cmd = newCmd(cmdS)
 				cmd.Dir = cInfo.dir
 				cmd.SysProcAttr = cInfo.procAttr
@@ -100,7 +104,7 @@ func start(cfg Config) {
 				cmd.Stderr = cInfo.stderr
 				cmd.Stdin = os.Stdin
 
-				var err = cmd.Start()
+				err = cmd.Start()
 				if err != nil {
 					console.Error(err)
 					time.Sleep(time.Second)
@@ -112,10 +116,14 @@ func start(cfg Config) {
 
 				console.Info("start process", cfg.Name, "pid is", cmd.Process.Pid)
 
+				var ch = handlerCmd(cmd)
+
 				err = cmd.Wait()
 				if err != nil {
 					console.Error(err)
 				}
+
+				ch <- struct{}{}
 
 				child.Status = "stop"
 				child.Pid = 0
