@@ -8,7 +8,7 @@
 * @create: 2022-09-12 16:23
 **/
 
-package main
+package program
 
 import (
 	"os"
@@ -16,96 +16,80 @@ import (
 	"time"
 
 	"github.com/lemonyxk/console"
+	"github.com/lemonyxk/pm/config"
+	"github.com/lemonyxk/pm/process"
+	"github.com/lemonyxk/pm/system"
 )
-
-type Config struct {
-	Name    string   `json:"name"`
-	User    string   `json:"user"`
-	Dir     string   `json:"dir"`
-	Command []string `json:"command"`
-	Restart bool     `json:"restart"`
-	Out     string   `json:"out"`
-	Err     string   `json:"err"`
-}
-
-func findRuntime(cfg Config, runtime Process) *Proc {
-	for i := 0; i < len(runtime); i++ {
-		if runtime[i].Name == cfg.Name {
-			runtime[i].ch = make(chan struct{}, 1)
-			return runtime[i]
-		}
-	}
-	return nil
-}
 
 func run() {
 
-	var err = createServer()
+	var err = CreateServer()
 	if err != nil {
 		console.Exit(err)
 	}
 
 	console.Info("pm manager http server start addr:", "127.0.0.1:52525")
 	console.Info("pm manager service start pid:", os.Getpid())
-	console.Info("home dir:", homeDir)
-	console.Info("config dir:", configDir)
-	console.Info("out log path:", outPath)
-	console.Info("err log path:", errPath)
+	console.Info("home dir:", config.HomeDir)
+	console.Info("config dir:", config.ConfigDir)
+	console.Info("out log path:", config.OutPath)
+	console.Info("err log path:", config.ErrPath)
 
-	for i := 0; i < len(config); i++ {
-		go start(config[i])
+	for i := 0; i < len(config.Configs); i++ {
+		go Exec(config.Configs[i])
 	}
 
-	<-closeChan
+	<-system.Exit
 
 	console.Info("pm manager service stopped")
 }
 
-func start(cfg Config) {
+func Exec(cfg config.Config) {
 	if len(cfg.Command) == 0 {
 		return
 	}
 
-	var cInfo, err = makeCmdInfo(cfg)
+	var cInfo, err = config.NewCmdInfo(cfg)
 	if err != nil {
 		console.Error(err)
 		return
 	}
 
-	var proc = &Proc{
+	var proc = &process.Proc{
 		Name:    cfg.Name,
 		Cmd:     cfg.Command,
-		OutPath: cInfo.outPath,
-		ErrPath: cInfo.errPath,
+		OutPath: cInfo.OutPath,
+		ErrPath: cInfo.ErrPath,
 
 		Children: nil,
 
-		ch: make(chan struct{}, 1),
+		Ch: make(chan struct{}, 1),
 	}
 
 	var fin int32 = 0
-	sigMap.Set(cfg.Name, proc)
+
+	config.SigMap.Set(cfg.Name, proc)
 
 	for j := 0; j < len(cfg.Command); j++ {
 		var cmdS = cfg.Command[j]
-		var child = &Child{Pid: 0, Restart: cfg.Restart, Status: "stop"}
+		var child = &process.Child{Pid: 0, Restart: cfg.Restart, Status: "stop"}
 		proc.Children = append(proc.Children, child)
 
 		go func() {
 			for {
 
-				var cmd = newCmd(cmdS)
-				cmd.Dir = cInfo.dir
-				cmd.SysProcAttr = cInfo.procAttr
-				cmd.Stdout = cInfo.stdout
-				cmd.Stderr = cInfo.stderr
+				var cmd = system.NewCmd(cmdS)
+				cmd.Dir = cInfo.Dir
+				cmd.SysProcAttr = cInfo.SysProcAttr
+				cmd.Stdout = cInfo.OutFile
+				cmd.Stderr = cInfo.ErrFile
 				cmd.Stdin = os.Stdin
 
 				err = cmd.Start()
 				if err != nil {
 					console.Error(err)
-					time.Sleep(time.Second)
-					break
+					time.Sleep(time.Second * 3)
+					continue
 				}
 
 				child.Pid = cmd.Process.Pid
@@ -113,7 +97,7 @@ func start(cfg Config) {
 
 				console.Info("start process", cfg.Name, "pid is", cmd.Process.Pid)
 
-				var ch = handlerCmd(cmd)
+				var ch = system.HandlerCmd(cmd)
 
 				err = cmd.Wait()
 				if err != nil {
@@ -128,27 +112,28 @@ func start(cfg Config) {
 				if !child.Restart {
 					console.Info("stop process", cfg.Name, "pid is", cmd.Process.Pid)
 					if atomic.AddInt32(&fin, 1) == int32(len(cfg.Command)) {
-						proc.ch <- struct{}{}
+						proc.Ch <- struct{}{}
 					}
 					break
 				}
 
 				console.Info("stop process", cfg.Name, "pid is", cmd.Process.Pid, "trying to restart...")
-				time.Sleep(time.Second)
+
+				time.Sleep(time.Second * 3)
 			}
 		}()
 	}
 
-	<-proc.ch
+	<-proc.Ch
 
-	sigMap.Delete(cfg.Name)
+	config.SigMap.Delete(cfg.Name)
 
-	if cInfo.of != nil {
-		_ = cInfo.of.Close()
+	if cInfo.OutFile != nil {
+		_ = cInfo.OutFile.Close()
 	}
 
-	if cInfo.ef != nil {
-		_ = cInfo.ef.Close()
+	if cInfo.ErrFile != nil {
+		_ = cInfo.ErrFile.Close()
 	}
 
 	console.Info("service", cfg.Name, "stopped")

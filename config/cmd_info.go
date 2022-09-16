@@ -8,37 +8,37 @@
 * @create: 2022-09-15 16:27
 **/
 
-package main
+package config
 
 import (
 	"fmt"
-	"io"
 	"os"
 	"path/filepath"
 	"syscall"
+
+	"github.com/lemonyxk/pm/system"
 )
 
-type cmdInfo struct {
-	of             *os.File
-	ef             *os.File
-	stdout, stderr io.Writer
-	procAttr       *syscall.SysProcAttr
-	dir            string
+type CmdInfo struct {
+	OutFile     *os.File
+	ErrFile     *os.File
+	SysProcAttr *syscall.SysProcAttr
+	Dir         string
 
-	outPath string
-	errPath string
+	OutPath string
+	ErrPath string
 }
 
-func makeCmdInfo(cfg Config) (*cmdInfo, error) {
+func NewCmdInfo(cfg Config) (*CmdInfo, error) {
 
-	var cmdInfo = &cmdInfo{}
+	var cmdInfo = &CmdInfo{}
 
 	if cfg.User != "" {
-		var c, err = getSysProcAttr(cfg.User)
+		var c, err = system.GetSysProcAttr(cfg.User)
 		if err != nil {
 			return nil, err
 		}
-		cmdInfo.procAttr = c
+		cmdInfo.SysProcAttr = c
 	}
 
 	if cfg.Dir != "" {
@@ -47,11 +47,11 @@ func makeCmdInfo(cfg Config) (*cmdInfo, error) {
 			return nil, err
 		}
 
-		cmdInfo.dir = dir
+		cmdInfo.Dir = dir
 	}
 
 	{
-		out, err := getOutPath(cfg)
+		out, err := GetOutPath(cfg)
 		if err != nil {
 			return nil, err
 		}
@@ -61,13 +61,12 @@ func makeCmdInfo(cfg Config) (*cmdInfo, error) {
 			return nil, err
 		}
 
-		cmdInfo.stdout = of
-		cmdInfo.of = of
-		cmdInfo.outPath = out
+		cmdInfo.OutFile = of
+		cmdInfo.OutPath = out
 	}
 
 	{
-		out, err := getErrPath(cfg)
+		out, err := GetErrPath(cfg)
 		if err != nil {
 			return nil, err
 		}
@@ -77,19 +76,18 @@ func makeCmdInfo(cfg Config) (*cmdInfo, error) {
 			return nil, err
 		}
 
-		cmdInfo.stderr = ef
-		cmdInfo.ef = ef
-		cmdInfo.errPath = out
+		cmdInfo.ErrFile = ef
+		cmdInfo.ErrPath = out
 	}
 
 	return cmdInfo, nil
 }
 
-func getErrPath(cfg Config) (string, error) {
+func GetErrPath(cfg Config) (string, error) {
 	var out = cfg.Err
 
 	if cfg.Err == "" {
-		out = filepath.Join(logDir, cfg.Name+".err.log")
+		out = filepath.Join(LogDir, cfg.Name+".err.log")
 	}
 
 	if !filepath.IsAbs(out) {
@@ -107,11 +105,11 @@ func getErrPath(cfg Config) (string, error) {
 	return out, nil
 }
 
-func getOutPath(cfg Config) (string, error) {
+func GetOutPath(cfg Config) (string, error) {
 	var out = cfg.Out
 
 	if cfg.Out == "" {
-		out = filepath.Join(logDir, cfg.Name+".out.log")
+		out = filepath.Join(LogDir, cfg.Name+".out.log")
 	}
 
 	if !filepath.IsAbs(out) {

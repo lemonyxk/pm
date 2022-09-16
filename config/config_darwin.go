@@ -11,8 +11,8 @@
 * @create: 2022-09-12 18:24
 **/
 
-package main
+package config
 
-func homePath() string {
+func HomePath() string {
 	return "/Library/Application Support"
 }

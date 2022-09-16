@@ -11,12 +11,12 @@
 * @create: 2022-09-12 18:24
 **/
 
-package main
+package config
 
 import (
 	"os"
 )
 
-func homePath() string {
+func HomePath() string {
 	return os.Getenv("PROGRAMDATA")
 }

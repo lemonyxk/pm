@@ -8,7 +8,7 @@
 * @create: 2022-09-15 12:10
 **/
 
-package main
+package process
 
 import (
 	"fmt"
@@ -30,7 +30,7 @@ type Proc struct {
 	OutPath  string
 	ErrPath  string
 
-	ch chan struct{}
+	Ch chan struct{} `json:"-"`
 }
 
 type Process []*Proc

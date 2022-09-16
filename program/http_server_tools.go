@@ -8,7 +8,7 @@
 * @create: 2022-09-16 20:18
 **/
 
-package main
+package program
 
 import (
 	"fmt"
@@ -29,7 +29,7 @@ func (h *handler) endStr(w http.ResponseWriter, v any) {
 	_, _ = w.Write([]byte(fmt.Sprintf("%v", v)))
 }
 
-func createServer() error {
+func CreateServer() error {
 	var err error
 	var netListen net.Listener
 	var server = http.Server{Addr: ":52525", Handler: &handler{}}

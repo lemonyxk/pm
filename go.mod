@@ -10,7 +10,7 @@ require (
 	github.com/lemonyxk/structure/v3 v3.0.1-0.20220903120006-d316477124eb
 	github.com/lemonyxk/utils/v3 v3.0.0-20220802233030-4c46513cfbc2
 	github.com/shirou/gopsutil/v3 v3.22.8
-	golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a
+	golang.org/x/sys v0.0.0-20220915200043-7b5979e65e41
 )
 
 require (

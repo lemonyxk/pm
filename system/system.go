@@ -11,57 +11,27 @@
 * @create: 2022-09-14 23:14
 **/
 
-package main
+package system
 
 import (
 	"os"
 	"os/exec"
 	"os/user"
 	"strconv"
-	"strings"
 	"syscall"
-
-	"github.com/lemonyxk/console"
 )
 
-func getPid() int {
-	var ps = findProcessByPID(int32(os.Getpid()))
-	if len(ps) == 0 {
-		console.Exit("can not find process by pid", os.Getpid())
-	}
+var Exit = make(chan struct{}, 1)
 
-	var p = ps[0]
-
-	for {
-		pp, err := p.Parent()
-		if err != nil {
-			break
-		}
-
-		n, err := p.Name()
-		if err != nil {
-			break
-		}
-
-		if strings.ToUpper(n) == "SUDO" {
-			break
-		}
-
-		p = pp
-	}
-
-	return int(p.Pid)
-}
-
-func isAdmin() bool {
+func IsAdmin() bool {
 	return os.Geteuid() == 0
 }
 
-func newCmd(command string) *exec.Cmd {
+func NewCmd(command string) *exec.Cmd {
 	return exec.Command("/bin/bash", "-c", command)
 }
 
-func getSysProcAttr(userName string) (*syscall.SysProcAttr, error) {
+func GetSysProcAttr(userName string) (*syscall.SysProcAttr, error) {
 	u, err := user.Lookup(userName)
 	if err != nil {
 		return nil, err
@@ -82,7 +52,7 @@ func getSysProcAttr(userName string) (*syscall.SysProcAttr, error) {
 	}, nil
 }
 
-func handlerCmd(cmd *exec.Cmd) chan struct{} {
+func HandlerCmd(cmd *exec.Cmd) chan struct{} {
 	var ch = make(chan struct{}, 1)
 	go func() {
 		<-ch

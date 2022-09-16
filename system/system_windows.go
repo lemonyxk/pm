@@ -11,10 +11,9 @@
 * @create: 2022-09-14 23:15
 **/
 
-package main
+package system
 
 import (
-	"os"
 	"os/exec"
 	"syscall"
 	"unsafe"
@@ -22,11 +21,9 @@ import (
 	"golang.org/x/sys/windows"
 )
 
-func getPid() int {
-	return os.Getpid()
-}
+var Exit = make(chan struct{}, 1)
 
-func isAdmin() bool {
+func IsAdmin() bool {
 	// Directly copied from the official windows documentation. The Go API for this is a
 	// direct wrap around the official C++ API.
 	// See https://docs.microsoft.com/en-us/windows/desktop/api/securitybaseapi/nf-securitybaseapi-checktokenmembership
@@ -45,15 +42,15 @@ func isAdmin() bool {
 	return err == nil && adm
 }
 
-func newCmd(command string) *exec.Cmd {
+func NewCmd(command string) *exec.Cmd {
 	return exec.Command("cmd", "/c", command)
 }
 
-func getSysProcAttr(userName string) (*syscall.SysProcAttr, error) {
+func GetSysProcAttr(userName string) (*syscall.SysProcAttr, error) {
 	return &syscall.SysProcAttr{HideWindow: true}, nil
 }
 
-func handlerCmd(cmd *exec.Cmd) chan struct{} {
+func HandlerCmd(cmd *exec.Cmd) chan struct{} {
 
 	var ch = make(chan struct{}, 1)
 

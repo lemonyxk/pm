@@ -8,7 +8,7 @@
 * @create: 2022-09-12 16:19
 **/
 
-package main
+package tools
 
 import (
 	"fmt"
@@ -16,10 +16,9 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"path/filepath"
-	"strings"
 
 	"github.com/lemonyxk/console"
+	"github.com/lemonyxk/pm/config"
 	"github.com/lemonyxk/utils/v3"
 	"github.com/shirou/gopsutil/v3/process"
 )
@@ -57,7 +56,7 @@ func GetArgs(flag []string) string {
 	return ""
 }
 
-func findProcessByPID(pid ...int32) []*process.Process {
+func FindProcess(pid ...int32) []*process.Process {
 
 	if len(pid) == 0 {
 		return nil
@@ -82,54 +81,16 @@ func findProcessByPID(pid ...int32) []*process.Process {
 	return res
 }
 
-func getConfigByName(name string) Config {
-	for i := 0; i < len(config); i++ {
-		if config[i].Name == name {
-			return config[i]
+func GetConfig(name string) config.Config {
+	for i := 0; i < len(config.Configs); i++ {
+		if config.Configs[i].Name == name {
+			return config.Configs[i]
 		}
 	}
-	return Config{}
+	return config.Config{}
 }
 
-func initConfig() []Config {
-
-	config = []Config{}
-
-	files, err := os.ReadDir(configDir)
-	if err != nil {
-		console.Exit(err)
-	}
-
-	for i := 0; i < len(files); i++ {
-		var fullPath = filepath.Join(configDir, files[i].Name())
-		if files[i].IsDir() {
-			continue
-		}
-
-		if !strings.HasSuffix(fullPath, ".json") {
-			continue
-		}
-
-		var f = utils.File.ReadFromPath(fullPath).Bytes()
-
-		var c Config
-		err = utils.Json.Decode(f, &c)
-		if err != nil {
-			console.Info(err)
-			continue
-		}
-
-		var n = files[i].Name()
-
-		c.Name = n[:len(n)-len(filepath.Ext(n))]
-
-		config = append(config, c)
-	}
-
-	return config
-}
-
-func httpGet(path string, params map[string]string) ([]byte, error) {
+func HttpGet(path string, params map[string]string) ([]byte, error) {
 	Url, err := url.Parse("http://127.0.0.1:52525/" + path)
 	if err != nil {
 		return nil, err
@@ -169,20 +130,9 @@ func ExitIfError(err error) {
 	}
 }
 
-func getServiceByName(name string) *Proc {
-	var ss = getService()
-	for i := 0; i < len(ss); i++ {
-		if ss[i].Name == config[0].Name {
-			return ss[i]
-		}
+func FixURL(p string) string {
+	if len(p) == 0 {
+		return ""
 	}
-	return nil
-}
-
-func getService() Process {
-	var list Process
-	body, err := httpGet("list", nil)
-	ExitIfError(err)
-	_ = utils.Json.Decode(body, &list)
-	return list
+	return p[1:]
 }
