@@ -40,6 +40,8 @@ func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		h.active(w, r)
 	case "/unActive":
 		h.unActive(w, r)
+	case "/load":
+		h.load(w, r)
 	case "/closeChan":
 		closeChan <- struct{}{}
 		h.endStr(w, nil)
@@ -276,4 +278,9 @@ func (h *handler) unActive(w http.ResponseWriter, r *http.Request) {
 	initConfig()
 
 	h.endStr(w, str+name+" unActive success")
+}
+
+func (h *handler) load(w http.ResponseWriter, r *http.Request) {
+	initConfig()
+	h.endStr(w, "load config success")
 }

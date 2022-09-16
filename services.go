@@ -36,6 +36,8 @@ func services() {
 		activeService()
 	case "unActive":
 		unActiveService()
+	case "load":
+		loadService()
 	case "":
 		fmt.Println(getService())
 	case "-h", "--help":
@@ -43,6 +45,16 @@ func services() {
 	default:
 		fmt.Println(helpService())
 	}
+}
+
+func loadService() {
+	var bts, err = httpGet("load", nil)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(string(bts))
 }
 
 func unActiveService() {
