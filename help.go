@@ -70,5 +70,14 @@ pm service start [service name]
   -- start service
 
 pm service restart [service name]
-  -- restart service`
+  -- restart service
+
+pm service remove [service name]
+  -- remove service
+
+pm service active [service name]
+  -- active service
+
+pm service unAction [service name]
+  -- unAction service`
 }

@@ -5,11 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fbe52ebb-90aa-43d5-ab2f-7d5b8d84e0ff" name="Changes" comment="1.support windows handler.">
+      <change afterPath="$PROJECT_DIR$/http_server_tools.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/help.go" beforeDir="false" afterPath="$PROJECT_DIR$/help.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/http_server.go" beforeDir="false" afterPath="$PROJECT_DIR$/http_server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/run.go" beforeDir="false" afterPath="$PROJECT_DIR$/run.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/system.go" beforeDir="false" afterPath="$PROJECT_DIR$/system.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/system_windows.go" beforeDir="false" afterPath="$PROJECT_DIR$/system_windows.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services.go" beforeDir="false" afterPath="$PROJECT_DIR$/services.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools.go" beforeDir="false" afterPath="$PROJECT_DIR$/tools.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +86,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="1.init." />
-    <option name="LAST_COMMIT_MESSAGE" value="1.init." />
+    <MESSAGE value="1.support windows handler." />
+    <option name="LAST_COMMIT_MESSAGE" value="1.support windows handler." />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

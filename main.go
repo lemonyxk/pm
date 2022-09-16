@@ -25,6 +25,7 @@ import (
 var server service.Service
 var homeDir = filepath.Join(homePath(), "pm")
 var configDir = filepath.Join(homeDir, "config")
+var unActiveDir = filepath.Join(homeDir, "unActive")
 var varDir = filepath.Join(homeDir, "var")
 var logDir = filepath.Join(homeDir, "log")
 var outPath = filepath.Join(logDir, "out.log")
@@ -65,6 +66,7 @@ func init() {
 
 	_ = os.MkdirAll(homeDir, os.ModePerm)
 	_ = os.MkdirAll(configDir, os.ModePerm)
+	_ = os.MkdirAll(unActiveDir, os.ModePerm)
 	_ = os.MkdirAll(logDir, os.ModePerm)
 	_ = os.MkdirAll(varDir, os.ModePerm)
 

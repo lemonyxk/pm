@@ -4,8 +4,10 @@ go 1.19
 
 require (
 	github.com/hpcloud/tail v1.0.0
+	github.com/jedib0t/go-pretty v4.3.0+incompatible
 	github.com/kardianos/service v1.2.1
 	github.com/lemonyxk/console v0.0.0-20220915082229-0d08cc2aadf8
+	github.com/lemonyxk/structure/v3 v3.0.1-0.20220903120006-d316477124eb
 	github.com/lemonyxk/utils/v3 v3.0.0-20220802233030-4c46513cfbc2
 	github.com/shirou/gopsutil/v3 v3.22.8
 	golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a
@@ -18,10 +20,8 @@ require (
 	github.com/go-openapi/errors v0.19.8 // indirect
 	github.com/go-openapi/strfmt v0.21.2 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
-	github.com/jedib0t/go-pretty v4.3.0+incompatible // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/lemonyxk/caller v0.0.0-20220321145833-a460d38644d8 // indirect
-	github.com/lemonyxk/structure/v3 v3.0.1-0.20220903120006-d316477124eb // indirect
 	github.com/lufia/plan9stats v0.0.0-20211012122336-39d0f177ccd0 // indirect
 	github.com/mattn/go-runewidth v0.0.13 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect

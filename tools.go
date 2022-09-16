@@ -17,6 +17,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/lemonyxk/console"
 	"github.com/lemonyxk/utils/v3"
@@ -105,6 +106,10 @@ func initConfig() []Config {
 			continue
 		}
 
+		if !strings.HasSuffix(fullPath, ".json") {
+			continue
+		}
+
 		var f = utils.File.ReadFromPath(fullPath).Bytes()
 
 		var c Config
@@ -162,6 +167,16 @@ func ExitIfError(err error) {
 		fmt.Println(err)
 		os.Exit(0)
 	}
+}
+
+func getServiceByName(name string) *Proc {
+	var ss = getService()
+	for i := 0; i < len(ss); i++ {
+		if ss[i].Name == config[0].Name {
+			return ss[i]
+		}
+	}
+	return nil
 }
 
 func getService() Process {

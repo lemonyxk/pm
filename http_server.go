@@ -12,12 +12,10 @@ package main
 
 import (
 	"fmt"
-	"net"
 	"net/http"
+	"os"
+	"path/filepath"
 	"time"
-
-	"github.com/lemonyxk/console"
-	"github.com/lemonyxk/utils/v3"
 )
 
 var closeChan = make(chan struct{}, 1)
@@ -36,6 +34,12 @@ func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		h.start(w, r)
 	case "/restart":
 		h.restart(w, r)
+	case "/remove":
+		h.remove(w, r)
+	case "/active":
+		h.active(w, r)
+	case "/unActive":
+		h.unActive(w, r)
 	case "/closeChan":
 		closeChan <- struct{}{}
 		h.endStr(w, nil)
@@ -46,7 +50,6 @@ func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func (h *handler) list(w http.ResponseWriter, r *http.Request) {
 	var list Process
-
 	sigMap.Range(func(k string, v *Proc) bool {
 		list = append(list, v)
 		return true
@@ -176,33 +179,101 @@ func (h *handler) restart(w http.ResponseWriter, r *http.Request) {
 	h.endStr(w, str+"start success")
 }
 
-func (h *handler) end(w http.ResponseWriter, v any) {
-	w.WriteHeader(200)
-	_, _ = w.Write(utils.Json.Encode(v))
-}
-
-func (h *handler) endStr(w http.ResponseWriter, v any) {
-	w.WriteHeader(200)
-	_, _ = w.Write([]byte(fmt.Sprintf("%v", v)))
-}
-
-func createServer() error {
-	var err error
-	var netListen net.Listener
-	var server = http.Server{Addr: ":52525", Handler: &handler{}}
-
-	netListen, err = net.Listen("tcp", server.Addr)
-
-	if err != nil {
-		return err
+func (h *handler) remove(w http.ResponseWriter, r *http.Request) {
+	var q = r.URL.Query()
+	var name = q.Get("name")
+	if name == "" {
+		h.endStr(w, "name is empty")
+		return
 	}
 
-	go func() {
-		err = server.Serve(netListen)
-		if err != nil {
-			console.Info(err)
-		}
-	}()
+	var str = ""
 
-	return nil
+	var m = sigMap.Get(name)
+	if m != nil {
+		for i := 0; i < len(m.Children); i++ {
+			m.Children[i].Restart = false
+			var p = findProcessByPID(int32(m.Children[i].Pid))
+			if len(p) == 0 {
+				continue
+			}
+			_ = p[0].Kill()
+			str += fmt.Sprintf("kill process %d", m.Children[i].Pid) + "\n"
+		}
+		str += "stop success\n"
+	}
+
+	_ = os.Remove(filepath.Join(configDir, name+".json"))
+	_ = os.Remove(filepath.Join(logDir, name+".out.log"))
+	_ = os.Remove(filepath.Join(logDir, name+".err.log"))
+
+	initConfig()
+
+	h.endStr(w, str+"config remove success")
+}
+
+func (h *handler) active(w http.ResponseWriter, r *http.Request) {
+	var q = r.URL.Query()
+	var name = q.Get("name")
+	if name == "" {
+		h.endStr(w, "name is empty")
+		return
+	}
+
+	if _, err := os.Stat(filepath.Join(configDir, name+".json")); err == nil {
+		h.endStr(w, name+" already active")
+		return
+	}
+
+	if _, err := os.Stat(filepath.Join(unActiveDir, name+".json")); err != nil {
+		h.endStr(w, name+" not found")
+		return
+	}
+
+	_ = os.Rename(filepath.Join(unActiveDir, name+".json"), filepath.Join(configDir, name+".json"))
+
+	initConfig()
+
+	h.endStr(w, name+" active success")
+}
+
+func (h *handler) unActive(w http.ResponseWriter, r *http.Request) {
+	var q = r.URL.Query()
+	var name = q.Get("name")
+	if name == "" {
+		h.endStr(w, "name is empty")
+		return
+	}
+
+	var str = ""
+
+	var m = sigMap.Get(name)
+	if m != nil {
+		for i := 0; i < len(m.Children); i++ {
+			m.Children[i].Restart = false
+			var p = findProcessByPID(int32(m.Children[i].Pid))
+			if len(p) == 0 {
+				continue
+			}
+			_ = p[0].Kill()
+			str += fmt.Sprintf("kill process %d", m.Children[i].Pid) + "\n"
+		}
+		str += "stop success\n"
+	}
+
+	if _, err := os.Stat(filepath.Join(configDir, name+".json")); err != nil {
+		h.endStr(w, str+name+" not found")
+		return
+	}
+
+	if _, err := os.Stat(filepath.Join(unActiveDir, name+".json")); err == nil {
+		h.endStr(w, str+name+" already unActive")
+		return
+	}
+
+	_ = os.Rename(filepath.Join(configDir, name+".json"), filepath.Join(unActiveDir, name+".json"))
+
+	initConfig()
+
+	h.endStr(w, str+name+" unActive success")
 }
