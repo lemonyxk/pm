@@ -5,31 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fbe52ebb-90aa-43d5-ab2f-7d5b8d84e0ff" name="Changes" comment="1.support windows handler.">
-      <change afterPath="$PROJECT_DIR$/cli/pm/init.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cli/pm/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cli/pmd/init.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/config.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/global.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/def/const.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/program/program.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd_info.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/cmd_info.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config_darwin.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/config_darwin.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config_linux.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/config_linux.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config_windows.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/config_windows.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/help.go" beforeDir="false" afterPath="$PROJECT_DIR$/tools/help.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/http_server.go" beforeDir="false" afterPath="$PROJECT_DIR$/program/http_server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/http_server_tools.go" beforeDir="false" afterPath="$PROJECT_DIR$/program/http_server_tools.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/pmd/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/process.go" beforeDir="false" afterPath="$PROJECT_DIR$/process/process.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.go" beforeDir="false" afterPath="$PROJECT_DIR$/program/run.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/services_log.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/system.go" beforeDir="false" afterPath="$PROJECT_DIR$/system/system.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/system_windows.go" beforeDir="false" afterPath="$PROJECT_DIR$/system/system_windows.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools.go" beforeDir="false" afterPath="$PROJECT_DIR$/tools/tools.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cli/pm/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/pm/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cli/pmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/pmd/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/program/http_server.go" beforeDir="false" afterPath="$PROJECT_DIR$/program/http_server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/help.go" beforeDir="false" afterPath="$PROJECT_DIR$/tools/help.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,25 +51,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultGoTemplateProperty": "Go File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
-    "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "go.import.settings.migrated": "true",
-    "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "/Users/lemo/lemo-hub/pm/cli/pm",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "settings.editor.selected.configurable": "project.scopes"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.format.on.save.advertiser.fired&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/lemo/lemo-hub/pm/cli/pm&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.scopes&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/cli/pm" />

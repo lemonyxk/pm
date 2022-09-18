@@ -12,6 +12,8 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"os/exec"
 
 	"github.com/lemonyxk/pm/def"
 	"github.com/lemonyxk/pm/tools"
@@ -41,6 +43,8 @@ func main() {
 		Query(def.UNACTIVE)
 	case def.LOAD:
 		Query(def.LOAD)
+	case "server":
+		runCmd(tools.Args(2))
 	case "":
 		fmt.Println(GetServices())
 	case "-h", "--help":
@@ -48,4 +52,14 @@ func main() {
 	default:
 		fmt.Println(tools.PMHelp())
 	}
+}
+
+func runCmd(str string) {
+	var cmd = exec.Command("pmd", str)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	cmd.Stdin = os.Stdin
+	var err = cmd.Start()
+	tools.ExitIfError(err)
+	_ = cmd.Wait()
 }

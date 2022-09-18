@@ -79,5 +79,11 @@ pm active [service name]
   -- active service
 
 pm unAction [service name]
-  -- unAction service`
+  -- unAction service
+
+pm load
+  -- update config
+
+pm server [command]
+  -- pmd [command]`
 }

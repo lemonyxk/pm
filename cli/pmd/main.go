@@ -64,6 +64,13 @@ func main() {
 		} else {
 			fmt.Println("start success")
 		}
+	case "run":
+		var err = config.Server.Run()
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			fmt.Println("run success")
+		}
 	case "status":
 		var status, err = config.Server.Status()
 		if err != nil {
@@ -78,13 +85,7 @@ func main() {
 				fmt.Println("stopped")
 			}
 		}
-	case "run":
-		var err = config.Server.Run()
-		if err != nil {
-			fmt.Println(err)
-		} else {
-			fmt.Println("run success")
-		}
+
 	case "log":
 		t, err := tail.TailFile(config.OutPath, tail.Config{Follow: true, Poll: true})
 		if err != nil {

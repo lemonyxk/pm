@@ -31,6 +31,7 @@ func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	console.Info("get request:", r.URL.String())
 
 	switch tools.FixURL(r.URL.Path) {
+	// client command
 	case def.LIST:
 		h.list(w, r)
 	case def.STOP:
@@ -47,11 +48,14 @@ func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		h.active(w, r)
 	case def.UNACTIVE:
 		h.unActive(w, r)
-	case def.LOG:
+	case def.LOAD:
 		h.load(w, r)
+
+	// 	server command
 	case def.EXIT:
 		system.Exit <- struct{}{}
 		h.endStr(w, nil)
+
 	default:
 		http.NotFound(w, r)
 	}
