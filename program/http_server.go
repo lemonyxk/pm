@@ -137,6 +137,8 @@ func (h *handler) start(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	config.InitConfig()
+
 	var cfg = tools.GetConfig(name)
 	if cfg.Name == "" {
 		h.endStr(w, fmt.Sprintf("service %s is not found", name))
@@ -174,16 +176,19 @@ func (h *handler) restart(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for {
-		time.Sleep(time.Second * 3)
+		time.Sleep(time.Second * 1)
 		var m = config.SigMap.Get(name)
 		if m == nil {
 			break
 		}
 	}
 
+	config.InitConfig()
+
 	var cfg = tools.GetConfig(name)
 	if cfg.Name == "" {
 		str += fmt.Sprintf("service %s is not found", name) + "\n"
+		h.endStr(w, str+"restart fail")
 		return
 	}
 

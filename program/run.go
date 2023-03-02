@@ -88,7 +88,7 @@ func Exec(cfg config.Config) {
 				err = cmd.Start()
 				if err != nil {
 					console.Error(err)
-					time.Sleep(time.Second * 3)
+					time.Sleep(time.Second * 1)
 					continue
 				}
 
@@ -119,7 +119,7 @@ func Exec(cfg config.Config) {
 
 				console.Info("stop process", cfg.Name, "pid is", cmd.Process.Pid, "trying to restart...")
 
-				time.Sleep(time.Second * 3)
+				time.Sleep(time.Second * 1)
 			}
 		}()
 	}

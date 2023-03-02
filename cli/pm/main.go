@@ -28,21 +28,21 @@ func main() {
 	case def.ERR:
 		errService()
 	case def.STOP:
-		Query(def.STOP)
+		fmt.Println(Query(def.STOP))
 	case def.STOPALL:
-		Query(def.STOPALL)
+		fmt.Println(Query(def.STOPALL))
 	case def.START:
-		Query(def.START)
+		fmt.Println(Query(def.START))
 	case def.RESTART:
-		Query(def.RESTART)
+		fmt.Println(Query(def.RESTART))
 	case def.REMOVE:
-		Query(def.REMOVE)
+		fmt.Println(Query(def.REMOVE))
 	case def.ACTIVE:
-		Query(def.ACTIVE)
+		fmt.Println(Query(def.ACTIVE))
 	case def.UNACTIVE:
-		Query(def.UNACTIVE)
+		fmt.Println(Query(def.UNACTIVE))
 	case def.LOAD:
-		Query(def.LOAD)
+		fmt.Println(Query(def.LOAD))
 	case "server":
 		runCmd(tools.Args(2))
 	case "":

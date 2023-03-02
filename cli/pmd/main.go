@@ -57,7 +57,7 @@ func main() {
 		} else {
 			fmt.Println("stop success")
 		}
-		time.Sleep(time.Second * 3)
+		time.Sleep(time.Second * 1)
 		err = config.Server.Start()
 		if err != nil {
 			fmt.Println(err)
