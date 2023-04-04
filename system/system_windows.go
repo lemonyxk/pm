@@ -50,6 +50,7 @@ func GetSysProcAttr(userName string) (*syscall.SysProcAttr, error) {
 	return &syscall.SysProcAttr{HideWindow: true}, nil
 }
 
+// kill process when the parent process exits.
 func HandlerCmd(cmd *exec.Cmd) chan struct{} {
 
 	var ch = make(chan struct{}, 1)
