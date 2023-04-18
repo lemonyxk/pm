@@ -82,8 +82,8 @@ func (h *handler) stopAll(w http.ResponseWriter, r *http.Request) {
 			if len(p) == 0 {
 				continue
 			}
-			_ = p[0].Kill()
-			str += fmt.Sprintf("kill process %d", v.Children[i].Pid) + "\n"
+			_ = p[0].Terminate()
+			str += fmt.Sprintf("terminate process %d", v.Children[i].Pid) + "\n"
 		}
 
 		str += "stop " + k + " success\n"
@@ -116,8 +116,8 @@ func (h *handler) stop(w http.ResponseWriter, r *http.Request) {
 		if len(p) == 0 {
 			continue
 		}
-		_ = p[0].Kill()
-		str += fmt.Sprintf("kill process %d", m.Children[i].Pid) + "\n"
+		_ = p[0].Terminate()
+		str += fmt.Sprintf("terminate process %d", m.Children[i].Pid) + "\n"
 	}
 
 	h.endStr(w, str+"stop success")
@@ -170,8 +170,8 @@ func (h *handler) restart(w http.ResponseWriter, r *http.Request) {
 			if len(p) == 0 {
 				continue
 			}
-			_ = p[0].Kill()
-			str += fmt.Sprintf("kill process %d", m.Children[i].Pid) + "\n"
+			_ = p[0].Terminate()
+			str += fmt.Sprintf("terminate process %d", m.Children[i].Pid) + "\n"
 		}
 	}
 
