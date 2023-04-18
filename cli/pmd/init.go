@@ -28,9 +28,6 @@ func init() {
 		os.Exit(1)
 	}
 
-	console.SetFlags(console.TIME)
-	console.Colorful(true)
-
 	_ = os.MkdirAll(config.HomeDir, os.ModePerm)
 	_ = os.MkdirAll(config.ConfigDir, os.ModePerm)
 	_ = os.MkdirAll(config.UnActiveDir, os.ModePerm)
@@ -50,8 +47,8 @@ func init() {
 		os.Exit(1)
 	}
 
-	console.SetWriter(config.OutFile)
-	console.SetErrorWriter(config.ErrFile)
+	console.DefaultLogger.Stdout = config.OutFile
+	console.DefaultLogger.Stderr = config.ErrFile
 
 	config.InitConfig()
 
@@ -59,7 +56,11 @@ func init() {
 		Name:        "PM",
 		DisplayName: "PM Service",
 		Description: "PM Service Manager",
-		Arguments:   []string{"run"},
+		Arguments:   []string{},
+		EnvVars: map[string]string{
+			"RUN": "TRUE",
+		},
+
 		// Executable:  "",
 	}
 

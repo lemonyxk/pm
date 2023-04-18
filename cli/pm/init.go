@@ -15,7 +15,6 @@ import (
 	"path/filepath"
 
 	"github.com/hpcloud/tail"
-	"github.com/lemonyxk/console"
 	"github.com/lemonyxk/pm/config"
 	"github.com/lemonyxk/pm/process"
 	"github.com/lemonyxk/pm/tools"
@@ -23,8 +22,7 @@ import (
 )
 
 func init() {
-	console.SetFlags(0)
-	console.Colorful(true)
+
 }
 
 func GetService(name string) *process.Proc {

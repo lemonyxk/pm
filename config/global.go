@@ -16,7 +16,7 @@ import (
 
 	"github.com/kardianos/service"
 	"github.com/lemonyxk/pm/process"
-	hash "github.com/lemonyxk/structure/v3/map"
+	hash "github.com/lemonyxk/structure/map"
 )
 
 var Server service.Service
