@@ -35,7 +35,7 @@ func list() {
 			} else {
 				status = console.FgRed.Sprint(child.Status)
 			}
-			table.Row(name, process.Cmd[j], child.Pid, status, child.Time.Format("2006-01-02 15:04:05 MST"))
+			table.Row(name, process.Cmd[j], child.Pid, status, child.Time.Format("01-02 15:04:05"))
 		}
 		if i != len(list)-1 {
 			table.Row("", "", "", "", "")

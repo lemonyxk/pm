@@ -14,5 +14,5 @@
 package config
 
 func HomePath() string {
-	return "/opt/pm"
+	return "/opt"
 }
