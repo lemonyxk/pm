@@ -3,7 +3,7 @@
 *
 * @description:
 *
-* @author: lemo
+* @author: lemon
 *
 * @create: 2022-09-15 03:03
 **/
@@ -18,6 +18,7 @@ import (
 	"time"
 
 	"github.com/lemonyxk/console"
+	"github.com/lemonyxk/pm/app"
 	"github.com/lemonyxk/pm/config"
 	"github.com/lemonyxk/pm/def"
 	"github.com/lemonyxk/pm/process"
@@ -36,20 +37,14 @@ func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		h.list(w, r)
 	case def.STOP:
 		h.stop(w, r)
-	case def.STOPALL:
-		h.stopAll(w, r)
+	case def.SHUTDOWN:
+		h.shutdown(w, r)
 	case def.START:
 		h.start(w, r)
 	case def.RESTART:
 		h.restart(w, r)
 	case def.REMOVE:
 		h.remove(w, r)
-	case def.ACTIVE:
-		h.active(w, r)
-	case def.UNACTIVE:
-		h.unActive(w, r)
-	case def.LOAD:
-		h.load(w, r)
 
 	// 	server command
 	case def.EXIT:
@@ -63,19 +58,26 @@ func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func (h *handler) list(w http.ResponseWriter, r *http.Request) {
 	var list process.Process
-	config.SigMap.Range(func(k string, v *process.Proc) bool {
+	app.SigMap.Range(func(k string, v *process.Proc) bool {
 		list = append(list, v)
 		return true
 	})
-
+	// sort by name
+	for i := 0; i < len(list); i++ {
+		for j := i + 1; j < len(list); j++ {
+			if list[i].Name > list[j].Name {
+				list[i], list[j] = list[j], list[i]
+			}
+		}
+	}
 	h.end(w, list)
 }
 
-func (h *handler) stopAll(w http.ResponseWriter, r *http.Request) {
+func (h *handler) shutdown(w http.ResponseWriter, r *http.Request) {
 
 	var str = ""
 
-	config.SigMap.Range(func(k string, v *process.Proc) bool {
+	app.SigMap.Range(func(k string, v *process.Proc) bool {
 		for i := 0; i < len(v.Children); i++ {
 			v.Children[i].Restart = false
 			var p = tools.FindProcess(int32(v.Children[i].Pid))
@@ -102,7 +104,7 @@ func (h *handler) stop(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var m = config.SigMap.Get(name)
+	var m = app.SigMap.Get(name)
 	if m == nil {
 		h.endStr(w, fmt.Sprintf("service %s is not running", name))
 		return
@@ -131,7 +133,7 @@ func (h *handler) start(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var m = config.SigMap.Get(name)
+	var m = app.SigMap.Get(name)
 	if m != nil {
 		h.endStr(w, fmt.Sprintf("service %s is running", name))
 		return
@@ -160,7 +162,7 @@ func (h *handler) restart(w http.ResponseWriter, r *http.Request) {
 
 	var str = ""
 
-	var m = config.SigMap.Get(name)
+	var m = app.SigMap.Get(name)
 	if m == nil {
 		str += fmt.Sprintf("service %s is not running", name) + "\n"
 	} else {
@@ -177,7 +179,7 @@ func (h *handler) restart(w http.ResponseWriter, r *http.Request) {
 
 	for {
 		time.Sleep(time.Second * 1)
-		var m = config.SigMap.Get(name)
+		var m = app.SigMap.Get(name)
 		if m == nil {
 			break
 		}
@@ -207,7 +209,7 @@ func (h *handler) remove(w http.ResponseWriter, r *http.Request) {
 
 	var str = ""
 
-	var m = config.SigMap.Get(name)
+	var m = app.SigMap.Get(name)
 	if m != nil {
 		for i := 0; i < len(m.Children); i++ {
 			m.Children[i].Restart = false
@@ -221,82 +223,11 @@ func (h *handler) remove(w http.ResponseWriter, r *http.Request) {
 		str += "stop success\n"
 	}
 
-	_ = os.Remove(filepath.Join(config.ConfigDir, name+".json"))
+	_ = os.Remove(filepath.Join(config.CfgDir, name+".json"))
 	_ = os.Remove(filepath.Join(config.LogDir, name+".out.log"))
 	_ = os.Remove(filepath.Join(config.LogDir, name+".err.log"))
 
 	config.InitConfig()
 
 	h.endStr(w, str+"config remove success")
-}
-
-func (h *handler) active(w http.ResponseWriter, r *http.Request) {
-	var q = r.URL.Query()
-	var name = q.Get("name")
-	if name == "" {
-		h.endStr(w, "name is empty")
-		return
-	}
-
-	if _, err := os.Stat(filepath.Join(config.ConfigDir, name+".json")); err == nil {
-		h.endStr(w, name+" already active")
-		return
-	}
-
-	if _, err := os.Stat(filepath.Join(config.UnActiveDir, name+".json")); err != nil {
-		h.endStr(w, name+" not found")
-		return
-	}
-
-	_ = os.Rename(filepath.Join(config.UnActiveDir, name+".json"), filepath.Join(config.ConfigDir, name+".json"))
-
-	config.InitConfig()
-
-	h.endStr(w, name+" active success")
-}
-
-func (h *handler) unActive(w http.ResponseWriter, r *http.Request) {
-	var q = r.URL.Query()
-	var name = q.Get("name")
-	if name == "" {
-		h.endStr(w, "name is empty")
-		return
-	}
-
-	var str = ""
-
-	var m = config.SigMap.Get(name)
-	if m != nil {
-		for i := 0; i < len(m.Children); i++ {
-			m.Children[i].Restart = false
-			var p = tools.FindProcess(int32(m.Children[i].Pid))
-			if len(p) == 0 {
-				continue
-			}
-			_ = p[0].Kill()
-			str += fmt.Sprintf("kill process %d", m.Children[i].Pid) + "\n"
-		}
-		str += "stop success\n"
-	}
-
-	if _, err := os.Stat(filepath.Join(config.ConfigDir, name+".json")); err != nil {
-		h.endStr(w, str+name+" not found")
-		return
-	}
-
-	if _, err := os.Stat(filepath.Join(config.UnActiveDir, name+".json")); err == nil {
-		h.endStr(w, str+name+" already unActive")
-		return
-	}
-
-	_ = os.Rename(filepath.Join(config.ConfigDir, name+".json"), filepath.Join(config.UnActiveDir, name+".json"))
-
-	config.InitConfig()
-
-	h.endStr(w, str+name+" unActive success")
-}
-
-func (h *handler) load(w http.ResponseWriter, r *http.Request) {
-	config.InitConfig()
-	h.endStr(w, "load config success")
 }

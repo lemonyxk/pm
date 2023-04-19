@@ -3,7 +3,7 @@
 *
 * @description:
 *
-* @author: lemo
+* @author: lemon
 *
 * @create: 2022-09-12 16:23
 **/
@@ -16,6 +16,7 @@ import (
 	"time"
 
 	"github.com/lemonyxk/console"
+	"github.com/lemonyxk/pm/app"
 	"github.com/lemonyxk/pm/config"
 	"github.com/lemonyxk/pm/process"
 	"github.com/lemonyxk/pm/system"
@@ -31,7 +32,7 @@ func run() {
 	console.Info("pm manager http server start addr:", "127.0.0.1:52525")
 	console.Info("pm manager service start pid:", os.Getpid())
 	console.Info("home dir:", config.HomeDir)
-	console.Info("config dir:", config.ConfigDir)
+	console.Info("config dir:", config.CfgDir)
 	console.Info("out log path:", config.OutPath)
 	console.Info("err log path:", config.ErrPath)
 
@@ -68,11 +69,11 @@ func Exec(cfg config.Config) {
 
 	var fin int32 = 0
 
-	config.SigMap.Set(cfg.Name, proc)
+	app.SigMap.Set(cfg.Name, proc)
 
 	for j := 0; j < len(cfg.Command); j++ {
 		var cmdS = cfg.Command[j]
-		var child = &process.Child{Pid: 0, Restart: cfg.Restart, Status: "stop"}
+		var child = &process.Child{Pid: 0, Restart: cfg.Restart, Status: "stop", Time: time.Time{}}
 		proc.Children = append(proc.Children, child)
 
 		go func() {
@@ -94,6 +95,7 @@ func Exec(cfg config.Config) {
 
 				child.Pid = cmd.Process.Pid
 				child.Status = "running"
+				child.Time = time.Now()
 
 				console.Info("start process", cfg.Name, "pid is", cmd.Process.Pid)
 
@@ -126,7 +128,7 @@ func Exec(cfg config.Config) {
 
 	<-proc.Ch
 
-	config.SigMap.Delete(cfg.Name)
+	app.SigMap.Delete(cfg.Name)
 
 	if cInfo.OutFile != nil {
 		_ = cInfo.OutFile.Close()

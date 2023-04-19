@@ -3,7 +3,7 @@
 *
 * @description:
 *
-* @author: lemo
+* @author: lemon
 *
 * @create: 2022-09-12 16:13
 **/
@@ -17,13 +17,16 @@ import (
 
 	"github.com/hpcloud/tail"
 	"github.com/kardianos/service"
+	"github.com/lemonyxk/console"
+	"github.com/lemonyxk/pm/app"
 	"github.com/lemonyxk/pm/config"
 	"github.com/lemonyxk/pm/tools"
 )
 
 func main() {
+	console.Info("pm service manager", os.Environ())
 	if os.Getenv("RUN") == "TRUE" {
-		var err = config.Server.Run()
+		var err = app.Server.Run()
 		if err != nil {
 			fmt.Println(err)
 		} else {
@@ -34,8 +37,8 @@ func main() {
 	switch tools.Args(1) {
 	case "start":
 		// start main process
-		_ = config.Server.Install()
-		var err = config.Server.Start()
+		_ = app.Server.Install()
+		var err = app.Server.Start()
 		if err != nil {
 			fmt.Println("already started")
 		} else {
@@ -43,25 +46,25 @@ func main() {
 		}
 	case "stop":
 		// stop main process
-		var err = config.Server.Stop()
+		var err = app.Server.Stop()
 		if err != nil {
 			fmt.Println("already stopped")
 		} else {
 			fmt.Println("stop success")
 		}
-		_ = config.Server.Uninstall()
+		_ = app.Server.Uninstall()
 	case "restart":
-		var err = config.Server.Stop()
+		var err = app.Server.Stop()
 		if err != nil {
 			fmt.Println("already stopped")
 		} else {
 			fmt.Println("stop success")
 		}
-		_ = config.Server.Uninstall()
-		_ = config.Server.Install()
+		_ = app.Server.Uninstall()
+		_ = app.Server.Install()
 		for {
 			time.Sleep(time.Second * 1)
-			var status, err = config.Server.Status()
+			var status, err = app.Server.Status()
 			if err != nil {
 				fmt.Println(err)
 				break
@@ -70,14 +73,14 @@ func main() {
 				break
 			}
 		}
-		err = config.Server.Start()
+		err = app.Server.Start()
 		if err != nil {
 			fmt.Println("already started")
 		} else {
 			fmt.Println("start success")
 		}
 	case "status":
-		var status, err = config.Server.Status()
+		var status, err = app.Server.Status()
 		if err != nil {
 			fmt.Println(err)
 		} else {
@@ -110,11 +113,10 @@ func main() {
 			fmt.Println(line.Text)
 		}
 	case "info":
-		fmt.Println("home dir:", config.HomeDir)
-		fmt.Println("config dir:", config.ConfigDir)
-		fmt.Println("unActive dir:", config.UnActiveDir)
-		fmt.Println("var dir:", config.VarDir)
-		fmt.Println("log dir:", config.LogDir)
+		fmt.Println("home:", config.HomeDir)
+		fmt.Println("config:", config.CfgDir)
+		fmt.Println("var:", config.VarDir)
+		fmt.Println("log:", config.LogDir)
 	case "":
 		fmt.Println(tools.PMDHelp())
 	default:

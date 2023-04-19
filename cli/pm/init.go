@@ -3,7 +3,7 @@
 *
 * @description:
 *
-* @author: lemo
+* @author: lemon
 *
 * @create: 2022-09-17 01:23
 **/
@@ -59,7 +59,7 @@ func errService() {
 		return
 	}
 
-	var cfgPath = filepath.Join(config.ConfigDir, name+".json")
+	var cfgPath = filepath.Join(config.CfgDir, name+".json")
 	var res = utils.File.ReadFromPath(cfgPath)
 	if res.LastError() != nil {
 		fmt.Println(res.LastError())
@@ -101,7 +101,7 @@ func logService() {
 		return
 	}
 
-	var cfgPath = filepath.Join(config.ConfigDir, name+".json")
+	var cfgPath = filepath.Join(config.CfgDir, name+".json")
 	var res = utils.File.ReadFromPath(cfgPath)
 	if res.LastError() != nil {
 		fmt.Println(res.LastError())

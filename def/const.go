@@ -3,7 +3,7 @@
 *
 * @description:
 *
-* @author: lemo
+* @author: lemon
 *
 * @create: 2022-09-17 01:24
 **/
@@ -11,16 +11,14 @@
 package def
 
 const (
+	EMPTY    = ""
 	LIST     = "list"
 	LOG      = "log"
 	ERR      = "err"
 	STOP     = "stop"
-	STOPALL  = "stopAll"
+	SHUTDOWN = "shutdown"
 	START    = "start"
 	RESTART  = "restart"
 	REMOVE   = "remove"
-	ACTIVE   = "active"
-	UNACTIVE = "unActive"
-	LOAD     = "load"
 	EXIT     = "exit"
 )

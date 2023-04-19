@@ -3,7 +3,7 @@
 *
 * @description:
 *
-* @author: lemo
+* @author: lemon
 *
 * @create: 2022-09-15 12:10
 **/
@@ -13,6 +13,7 @@ package process
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/jedib0t/go-pretty/text"
 )
@@ -21,6 +22,7 @@ type Child struct {
 	Pid     int
 	Restart bool
 	Status  string
+	Time    time.Time
 }
 
 type Proc struct {

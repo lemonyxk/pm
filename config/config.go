@@ -3,7 +3,7 @@
 *
 * @description:
 *
-* @author: lemo
+* @author: lemon
 *
 * @create: 2022-09-16 23:13
 **/
@@ -35,13 +35,13 @@ func InitConfig() []Config {
 
 	Configs = []Config{}
 
-	files, err := os.ReadDir(ConfigDir)
+	files, err := os.ReadDir(CfgDir)
 	if err != nil {
 		console.Exit(err)
 	}
 
 	for i := 0; i < len(files); i++ {
-		var fullPath = filepath.Join(ConfigDir, files[i].Name())
+		var fullPath = filepath.Join(CfgDir, files[i].Name())
 		if files[i].IsDir() {
 			continue
 		}

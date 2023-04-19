@@ -3,7 +3,7 @@
 *
 * @description:
 *
-* @author: lemo
+* @author: lemon
 *
 * @create: 2022-09-17 01:23
 **/
@@ -16,6 +16,7 @@ import (
 
 	"github.com/kardianos/service"
 	"github.com/lemonyxk/console"
+	"github.com/lemonyxk/pm/app"
 	"github.com/lemonyxk/pm/config"
 	"github.com/lemonyxk/pm/program"
 	"github.com/lemonyxk/pm/system"
@@ -29,10 +30,14 @@ func init() {
 	}
 
 	_ = os.MkdirAll(config.HomeDir, 0777)
-	_ = os.MkdirAll(config.ConfigDir, 0777)
-	_ = os.MkdirAll(config.UnActiveDir, 0777)
+	_ = os.MkdirAll(config.CfgDir, 0777)
 	_ = os.MkdirAll(config.LogDir, 0777)
 	_ = os.MkdirAll(config.VarDir, 0777)
+
+	_ = os.Chmod(config.HomeDir, 0777)
+	_ = os.Chmod(config.CfgDir, 0777)
+	_ = os.Chmod(config.LogDir, 0777)
+	_ = os.Chmod(config.VarDir, 0777)
 
 	var err error
 	config.OutFile, err = os.OpenFile(config.OutPath, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0777)
@@ -66,7 +71,7 @@ func init() {
 
 	prg := &program.Program{}
 
-	config.Server, err = service.New(prg, svcConfig)
+	app.Server, err = service.New(prg, svcConfig)
 	if err != nil {
 		console.Error(err)
 		os.Exit(1)

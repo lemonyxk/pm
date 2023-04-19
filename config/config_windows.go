@@ -6,7 +6,7 @@
 *
 * @description:
 *
-* @author: lemo
+* @author: lemon
 *
 * @create: 2022-09-12 18:24
 **/
@@ -15,8 +15,9 @@ package config
 
 import (
 	"os"
+	"path/filepath"
 )
 
 func HomePath() string {
-	return os.Getenv("PROGRAMDATA")
+	return filepath.Join(os.Getenv("PROGRAMDATA"), "opt")
 }
