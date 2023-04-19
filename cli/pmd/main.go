@@ -22,7 +22,6 @@ import (
 )
 
 func main() {
-
 	if os.Getenv("RUN") == "TRUE" {
 		var err = config.Server.Run()
 		if err != nil {
@@ -33,23 +32,8 @@ func main() {
 	}
 
 	switch tools.Args(1) {
-	// case "install":
-	// 	var err = config.Server.Install()
-	// 	if err != nil {
-	// 		fmt.Println(err)
-	// 	} else {
-	// 		fmt.Println("install success")
-	// 	}
-	// case "uninstall":
-	// 	var err = config.Server.Uninstall()
-	// 	if err != nil {
-	// 		fmt.Println(err)
-	// 	} else {
-	// 		fmt.Println("uninstall success")
-	// 	}
 	case "start":
 		// start main process
-		// will exec run function
 		_ = config.Server.Install()
 		var err = config.Server.Start()
 		if err != nil {
@@ -92,13 +76,6 @@ func main() {
 		} else {
 			fmt.Println("start success")
 		}
-	// case "run":
-	// 	var err = config.Server.Run()
-	// 	if err != nil {
-	// 		fmt.Println(err)
-	// 	} else {
-	// 		fmt.Println("run success")
-	// 	}
 	case "status":
 		var status, err = config.Server.Status()
 		if err != nil {

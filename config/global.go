@@ -27,7 +27,6 @@ var VarDir = filepath.Join(HomeDir, "var")
 var LogDir = filepath.Join(HomeDir, "log")
 var OutPath = filepath.Join(LogDir, "out.log")
 var ErrPath = filepath.Join(LogDir, "err.log")
-var RuntimePath = filepath.Join(VarDir, "runtime")
 
 var OutFile *os.File
 var ErrFile *os.File

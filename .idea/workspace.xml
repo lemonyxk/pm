@@ -4,14 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbe52ebb-90aa-43d5-ab2f-7d5b8d84e0ff" name="Changes" comment="">
+    <list default="true" id="fbe52ebb-90aa-43d5-ab2f-7d5b8d84e0ff" name="Changes" comment="1.support windows handler.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cli/pm/init.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/pm/init.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cli/pmd/init.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/pmd/init.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cli/pmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/pmd/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/config_darwin.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/config_darwin.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/global.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/global.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +26,7 @@
   <component name="FormatOnSaveOptions">
     <option name="myRunOnSave" value="false" />
   </component>
-  <component name="GOROOT" url="file:///usr/local/opt/go/libexec" />
+  <component name="GOROOT" url="file:///opt/homebrew/Cellar/go/1.20.3/libexec" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -93,8 +91,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="1.init." />
     <MESSAGE value="1.support windows handler." />
-    <MESSAGE value="1.add comment." />
-    <option name="LAST_COMMIT_MESSAGE" value="1.add comment." />
+    <option name="LAST_COMMIT_MESSAGE" value="1.support windows handler." />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

@@ -28,20 +28,20 @@ func init() {
 		os.Exit(1)
 	}
 
-	_ = os.MkdirAll(config.HomeDir, os.ModePerm)
-	_ = os.MkdirAll(config.ConfigDir, os.ModePerm)
-	_ = os.MkdirAll(config.UnActiveDir, os.ModePerm)
-	_ = os.MkdirAll(config.LogDir, os.ModePerm)
-	_ = os.MkdirAll(config.VarDir, os.ModePerm)
+	_ = os.MkdirAll(config.HomeDir, 0777)
+	_ = os.MkdirAll(config.ConfigDir, 0777)
+	_ = os.MkdirAll(config.UnActiveDir, 0777)
+	_ = os.MkdirAll(config.LogDir, 0777)
+	_ = os.MkdirAll(config.VarDir, 0777)
 
 	var err error
-	config.OutFile, err = os.OpenFile(config.OutPath, os.O_RDWR|os.O_APPEND|os.O_CREATE, os.ModePerm)
+	config.OutFile, err = os.OpenFile(config.OutPath, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0777)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
 
-	config.ErrFile, err = os.OpenFile(config.ErrPath, os.O_RDWR|os.O_APPEND|os.O_CREATE, os.ModePerm)
+	config.ErrFile, err = os.OpenFile(config.ErrPath, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0777)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -68,7 +68,7 @@ func init() {
 
 	config.Server, err = service.New(prg, svcConfig)
 	if err != nil {
-		fmt.Println(err)
+		console.Error(err)
 		os.Exit(1)
 	}
 }
