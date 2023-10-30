@@ -3,12 +3,12 @@ module github.com/lemonyxk/pm
 go 1.20
 
 require (
-	github.com/hpcloud/tail v1.0.0
 	github.com/jedib0t/go-pretty v4.3.0+incompatible
 	github.com/kardianos/service v1.2.2
 	github.com/lemonyxk/console v0.0.0-20230321235617-598744e268b7
 	github.com/lemonyxk/structure v0.0.0-20230322000315-cef25fa7c154
 	github.com/lemonyxk/utils/v3 v3.0.0-20221230090713-e471ed37d9f2
+	github.com/nxadm/tail v1.4.11
 	github.com/shirou/gopsutil/v3 v3.23.3
 	golang.org/x/sys v0.7.0
 )
@@ -35,6 +35,5 @@ require (
 	github.com/yusufpapurcu/wmi v1.2.2 // indirect
 	go.mongodb.org/mongo-driver v1.10.0 // indirect
 	golang.org/x/time v0.0.0-20220411224347-583f2d630306 // indirect
-	gopkg.in/fsnotify.v1 v1.4.7 // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 )

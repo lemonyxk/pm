@@ -14,11 +14,11 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/hpcloud/tail"
 	"github.com/lemonyxk/pm/config"
 	"github.com/lemonyxk/pm/process"
 	"github.com/lemonyxk/pm/tools"
 	"github.com/lemonyxk/utils/v3"
+	"github.com/nxadm/tail"
 )
 
 func init() {
@@ -86,10 +86,13 @@ func errService() {
 		return
 	}
 
-	t, err := tail.TailFile(out, tail.Config{Follow: true, Poll: true})
+	t, err := tail.TailFile(out, tail.Config{Follow: true, Poll: true, CompleteLines: true, Location: &tail.SeekInfo{Offset: -51200, Whence: 2}})
 	tools.ExitIfError(err)
 
 	for line := range t.Lines {
+		if line.Num == 1 {
+			continue
+		}
 		fmt.Println(line.Text)
 	}
 }
@@ -128,10 +131,13 @@ func logService() {
 		return
 	}
 
-	t, err := tail.TailFile(out, tail.Config{Follow: true, Poll: true})
+	t, err := tail.TailFile(out, tail.Config{Follow: true, Poll: true, CompleteLines: true, Location: &tail.SeekInfo{Offset: -51200, Whence: 2}})
 	tools.ExitIfError(err)
 
 	for line := range t.Lines {
+		if line.Num == 1 {
+			continue
+		}
 		fmt.Println(line.Text)
 	}
 }

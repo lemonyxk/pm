@@ -103,7 +103,7 @@ func Exec(cfg config.Config) {
 
 				err = cmd.Wait()
 				if err != nil {
-					console.Error(err)
+					console.Error(cmdS, cInfo.Dir, err)
 				}
 
 				ch <- struct{}{}

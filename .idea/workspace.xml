@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbe52ebb-90aa-43d5-ab2f-7d5b8d84e0ff" name="Changes" comment="">
+    <list default="true" id="fbe52ebb-90aa-43d5-ab2f-7d5b8d84e0ff" name="Changes" comment="1.support windows handler.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cli/pm/func.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/pm/func.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/config_darwin.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/config_darwin.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/config_linux.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/config_linux.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cli/pm/init.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/pm/init.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cli/pmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/pmd/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/program/run.go" beforeDir="false" afterPath="$PROJECT_DIR$/program/run.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,7 +27,7 @@
   <component name="FormatOnSaveOptions">
     <option name="myRunOnSave" value="false" />
   </component>
-  <component name="GOROOT" url="file:///usr/local/Cellar/go/1.20.3/libexec" />
+  <component name="GOROOT" url="file:///opt/homebrew/opt/go/libexec" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -43,6 +45,9 @@
   <component name="OptimizeOnSaveOptions">
     <option name="myRunOnSave" value="false" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2EeyZzJ0srg503AqzmoTHivZJmM" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -58,6 +63,7 @@
     &quot;RunOnceActivity.go.format.on.save.advertiser.fired&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.automatic.dependencies.download&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
@@ -76,12 +82,19 @@
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/config" />
-      <recent name="$PROJECT_DIR$/path" />
       <recent name="$PROJECT_DIR$/program" />
+      <recent name="$PROJECT_DIR$/config" />
       <recent name="$PROJECT_DIR$/http_server" />
       <recent name="$PROJECT_DIR$/services" />
+      <recent name="$PROJECT_DIR$/system" />
     </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-gosdk-e6de5fef99a4-91e4cb603404-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-233.10527.20" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">

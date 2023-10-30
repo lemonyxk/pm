@@ -15,12 +15,12 @@ import (
 	"os"
 	"time"
 
-	"github.com/hpcloud/tail"
 	"github.com/kardianos/service"
 	"github.com/lemonyxk/console"
 	"github.com/lemonyxk/pm/app"
 	"github.com/lemonyxk/pm/config"
 	"github.com/lemonyxk/pm/tools"
+	"github.com/nxadm/tail"
 )
 
 func main() {
@@ -35,9 +35,18 @@ func main() {
 	}
 
 	switch tools.Args(1) {
-	case "start":
-		// start main process
+	case "install":
+		// install main process
 		_ = app.Server.Install()
+	case "uninstall":
+		var err = app.Server.Stop()
+		if err != nil {
+			fmt.Println("already stopped")
+		} else {
+			fmt.Println("stop success")
+		}
+		_ = app.Server.Uninstall()
+	case "start":
 		var err = app.Server.Start()
 		if err != nil {
 			fmt.Println("already started")
@@ -52,7 +61,6 @@ func main() {
 		} else {
 			fmt.Println("stop success")
 		}
-		_ = app.Server.Uninstall()
 	case "restart":
 		var err = app.Server.Stop()
 		if err != nil {
@@ -60,8 +68,6 @@ func main() {
 		} else {
 			fmt.Println("stop success")
 		}
-		_ = app.Server.Uninstall()
-		_ = app.Server.Install()
 		for {
 			time.Sleep(time.Second * 1)
 			var status, err = app.Server.Status()
