@@ -86,6 +86,8 @@ func errService() {
 		return
 	}
 
+	fmt.Println(out)
+
 	t, err := tail.TailFile(out, tail.Config{Follow: true, Poll: true, CompleteLines: true})
 	tools.ExitIfError(err)
 

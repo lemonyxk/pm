@@ -7,7 +7,6 @@
     <list default="true" id="fbe52ebb-90aa-43d5-ab2f-7d5b8d84e0ff" name="Changes" comment="1.support windows handler.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cli/pm/init.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/pm/init.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cli/pmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/pmd/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
