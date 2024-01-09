@@ -86,7 +86,7 @@ func errService() {
 		return
 	}
 
-	t, err := tail.TailFile(out, tail.Config{Follow: true, Poll: true, CompleteLines: true, Location: &tail.SeekInfo{Offset: -51200, Whence: 2}})
+	t, err := tail.TailFile(out, tail.Config{Follow: true, Poll: true, CompleteLines: true})
 	tools.ExitIfError(err)
 
 	for line := range t.Lines {
@@ -131,7 +131,9 @@ func logService() {
 		return
 	}
 
-	t, err := tail.TailFile(out, tail.Config{Follow: true, Poll: true, CompleteLines: true, Location: &tail.SeekInfo{Offset: -51200, Whence: 2}})
+	fmt.Println(out)
+
+	t, err := tail.TailFile(out, tail.Config{Follow: true, Poll: true, CompleteLines: true})
 	tools.ExitIfError(err)
 
 	for line := range t.Lines {

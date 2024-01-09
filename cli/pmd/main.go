@@ -100,7 +100,7 @@ func main() {
 			}
 		}
 	case "log":
-		t, err := tail.TailFile(config.OutPath, tail.Config{Follow: true, Poll: true})
+		t, err := tail.TailFile(config.OutPath, tail.Config{Follow: true, Poll: true, CompleteLines: true})
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(0)
@@ -110,7 +110,7 @@ func main() {
 		}
 
 	case "err":
-		t, err := tail.TailFile(config.ErrPath, tail.Config{Follow: true, Poll: true})
+		t, err := tail.TailFile(config.ErrPath, tail.Config{Follow: true, Poll: true, CompleteLines: true})
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(0)
